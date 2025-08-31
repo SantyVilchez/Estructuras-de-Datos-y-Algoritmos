@@ -52,6 +52,8 @@ class Celda:
         self.__sig = None
     def getElem(self):
         return self.__elem
+    def setElem(self,elem):
+        self.__elem = elem
     def getSig(self):
         return self.__sig
     def setSig(self,sig):
@@ -82,8 +84,8 @@ class ColaEncadenada:
             self.__cant -= 1
             self.__primero = self.__primero.getSig()
             return suprimido
-    def recuperar(self):
-        return self.__primero.getElem()
+    def recuperar(self)->Celda:
+        return self.__primero
     def recorrer(self):
         aux = self.__primero
         while aux != None:
@@ -109,7 +111,7 @@ if __name__ == '__main__':
     ColaE.insertar(5)
     ColaE.insertar(6)
     ColaE.recorrer()
-    print("Primer Elemento en la Cola es ",ColaE.recuperar())
+    print("Primer Elemento en la Cola es ",ColaE.recuperar().getElem())
     ColaE.suprimir()
     ColaE.suprimir()
     ColaE.suprimir()
