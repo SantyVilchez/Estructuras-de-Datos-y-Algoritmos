@@ -19,14 +19,16 @@ class ColaSecuencial:
     def vacia(self):
         return self.__cant == 0
     def insertar(self,elem:int):
-        if self.vacia():
-            self.__Pr = self.__Ul = (self.__Ul + 1) % self.__max
-            self.__lista[self.__Ul] = elem
-        else:
-            self.__Ul = (self.__Ul +1) % self.__max
-            self.__lista[self.__Ul] = elem
         if not self.llena():
+            if self.vacia():
+                self.__Pr = self.__Ul = (self.__Ul + 1) % self.__max
+                self.__lista[self.__Ul] = elem
+            else:
+                self.__Ul = (self.__Ul +1) % self.__max
+                self.__lista[self.__Ul] = elem
             self.__cant += 1
+        else:
+            print(f"La pila se lleno por lo tanto el elemento {elem} no pudo ser insertado")
     def suprimir(self):
         if self.vacia():
             return 0
