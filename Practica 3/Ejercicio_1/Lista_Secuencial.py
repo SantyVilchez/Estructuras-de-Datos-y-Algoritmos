@@ -54,17 +54,12 @@ class ListaSecuencial:
             print("Poisicion fuera de rango")
         return elemento        
     def recorrer(self):
-        cant = 0
-        x=0
-        while cant != self.__cant:
-            print(self.__arreglo[x])
-            cant+=1 
-            x+=1
+        for indice in range(self.__cant):
+            print(self.__arreglo[indice])
     def primerElemento(self):
         return self.__arreglo[0]
     def ultimoElemento(self):
         return self.__arreglo[self.__cant-1]
     
-
 
 
