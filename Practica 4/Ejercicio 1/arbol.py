@@ -54,28 +54,28 @@ class Arbol:
             grado+=1
         return grado
     
-    # def suprimir(self,valor:int):
-    #     self.__suprimir(self.__raiz,valor)
+    def suprimir(self,valor:int):
+        self.__suprimir(self.__raiz,valor)
 
-    # def __suprimir(self,nodo : Nodo, valor : int):
-    #     if not nodo:
-    #         print("El elemento no existe")
-    #     elif nodo.getValor() > valor:
-    #         self.__suprimir(nodo.getIzq(),valor)
-    #     elif nodo.getValor() < valor:
-    #         self.__suprimir(nodo.getDer(),valor)
-    #     else:
-    #         if self.grado(nodo) == 0:
-    #             nodo.setValor()
-    #         elif self.grado(nodo) == 1:
-    #             if nodo.getIzq():
-    #                 nodo.setValor(nodo.getIzq().getValor())
-    #                 nodo.setIzq(None)
-    #             else:
-    #                 nodo.setValor(nodo.getDer().getValor())
-    #                 nodo.setDer(None)
-    #         else:
-    #             pass
+    def __suprimir(self,nodo : Nodo, valor : int):
+        if not nodo:
+            print("El elemento no existe")
+        elif nodo.getValor() > valor:
+            self.__suprimir(nodo.getIzq(),valor)
+        elif nodo.getValor() < valor:
+            self.__suprimir(nodo.getDer(),valor)
+        else:
+            if self.grado(nodo) == 0:
+                nodo.setValor()
+            elif self.grado(nodo) == 1:
+                if nodo.getIzq():
+                    nodo.setValor(nodo.getIzq().getValor())
+                    nodo.setIzq(None)
+                else:
+                    nodo.setValor(nodo.getDer().getValor())
+                    nodo.setDer(None)
+            else:
+                pass
 
     def hoja(self):
         pass

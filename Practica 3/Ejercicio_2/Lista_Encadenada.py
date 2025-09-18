@@ -25,16 +25,13 @@ class ListaEncadenada:
             self.__cabeza = nuevo
         self.__cant += 1
     def suprimir(self,posicion:int):
-        if 1 <= posicion <= self.__cant:
+        if 0 <= posicion <= self.__cant:
             if not self.vacia():
-                posicion -= 1
-                indice = 0
                 anterior = None
                 actual = self.__cabeza
-                while indice != posicion:
+                for _ in range(posicion):
                     anterior = actual
                     actual = anterior.getSig()
-                    indice += 1
                 if anterior:
                     anterior.setSig(actual.getSig())
                 else:
