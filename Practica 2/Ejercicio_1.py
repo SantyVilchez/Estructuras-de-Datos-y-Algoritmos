@@ -49,21 +49,24 @@ class PilaEncadenada:
     def __init__(self):
         self.__tope = None
         self.__cant = 0
+        
     def insertar(self,elem:int):
-        aux  = Celda(elem)
-        aux.setSig(self.__tope)
-        self.__tope = aux
-        self.__cant += 1
+        aux  = Celda(elem) 
+        aux.setSig(self.__tope) 
+        self.__tope = aux 
+        self.__cant += 1 
+   
     def suprimir(self):
-        self.__cant-=1
-        borrado = self.__tope.getElem()
-        self.__tope = self.__tope.getSig()
-        return borrado
+        self.__cant-=1 
+        borrado = self.__tope.getElem() 
+        self.__tope = self.__tope.getSig() 
+        return borrado 
+    
     def vacia(self):
         return self.__cant == 0
     def recorrer(self):
-        aux = self.__tope
-        while aux != None:
+        aux = self.__tope 
+        while aux != None: 
             print(aux.getElem())
             aux = aux.getSig()
     def cantidad(self):
