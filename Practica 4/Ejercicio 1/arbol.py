@@ -1,5 +1,6 @@
 #el suprimir por ahora funca nomas en nodos de grado 0 y 1
 from nodo_arbol import Nodo
+from estructurador import visualizador
 class Arbol:
     __raiz : Nodo
     def __init__(self):
@@ -8,44 +9,44 @@ class Arbol:
         if not self.__raiz:
             self.__raiz = Nodo(valor)
         else:
-            self.__insertar(self.__raiz,valor)
+            self._insertar(self.__raiz,valor)
     
-    def __insertar(self,nodo : Nodo,valor:int):
+    def _insertar(self,nodo : Nodo,valor:int):
         if nodo.getValor() == valor:
             print("El valor ya existe")
         elif valor < nodo.getValor():
             if nodo.getIzq():
-                self.__insertar(nodo.getIzq(),valor)
+                self._insertar(nodo.getIzq(),valor)
             else:
                 nodo.setIzq(Nodo(valor))
         else:
             if nodo.getDer():
-                self.__insertar(nodo.getDer(),valor)
+                self._insertar(nodo.getDer(),valor)
             else:
                 nodo.setDer(Nodo(valor))
  
                     
     def inOrden(self):
-        self.__inOrden(self.__raiz)
+        self._inOrden(self.__raiz)
 
-    def __inOrden(self,nodo:Nodo):
+    def _inOrden(self,nodo:Nodo):
         if nodo:
-            self.__inOrden(nodo.getIzq())
+            self._inOrden(nodo.getIzq())
             print(nodo.getValor())#10/4/
-            self.__inOrden(nodo.getDer())
+            self._inOrden(nodo.getDer())
 
     def buscar(self,valor : int):
-        self.__buscar(self.__raiz,valor)
+        self._buscar(self.__raiz,valor)
 
-    def __buscar(self, nodo : Nodo, valor : int):
+    def _buscar(self, nodo : Nodo, valor : int):
         if not nodo:
             print("El elemento no existe")
         elif nodo.getValor() == valor:
             print("El elemento existe")
         elif valor < nodo.getValor():
-            self.__buscar(nodo.getIzq(),valor)
+            self._buscar(nodo.getIzq(),valor)
         else:
-            self.__buscar(nodo.getDer(),valor)
+            self._buscar(nodo.getDer(),valor)
 
     def grado(self,nodo : Nodo):
         grado = 0
@@ -54,51 +55,60 @@ class Arbol:
         if nodo.getDer():
             grado+=1
         return grado
-    
     def suprimir(self,valor:int):
-        self.__suprimir(self.__raiz,valor)
-
-    def __suprimir(self,nodo : Nodo, valor : int):
-        grado = -1
+        self.__raiz = self._suprimir(self.__raiz,valor)
+    def _suprimir(self,nodo : Nodo, valor : int):
         if not nodo:
-           return -1
+            return None
         elif valor < nodo.getValor():
-            grado =  self.__suprimir(nodo.getIzq(),valor)
+            nodo.setIzq(self._suprimir(nodo.getIzq(),valor))
         elif valor > nodo.getValor():
-            grado = self.__suprimir(nodo.getDer(),valor)
+            nodo.setDer(self._suprimir(nodo.getDer(),valor))
         else :
             if self.grado(nodo) == 0:
-                return 0
-            elif self.grado(nodo) == 1:
-                return 1
-            else:
-                pass
-        print(f"en el nodo con valor {nodo.getValor()} el grado es {grado}")
-        if grado == 0:
-            if nodo.getDer() != None:
-                if valor == nodo.getDer().getValor():
-                    nodo.setDer(None)
-            if nodo.getIzq() != None:
-                if valor == nodo.getIzq().getValor():
-                    nodo.setIzq(None)
-            grado =-1
-        elif grado == 1:
-            if nodo.getDer() != None:
-                if valor == nodo.getDer().getValor():
-                    nodo.setDer(nodo.getDer().getDer() if nodo.getDer().getDer() else nodo.getDer().getIzq())
-            if nodo.getIzq() != None:
-                if valor == nodo.getIzq().getValor():
-                    nodo.setIzq(nodo.getIzq().getDer() if nodo.getDer().getDer() else nodo.getIzq().getIzq())
+                return None
+            if self.grado(nodo) == 1:
+                return nodo.getDer() if nodo.getDer() else nodo.getIzq()
+            if self.grado(nodo) == 2:
+                maximo = nodo.getIzq()
+                while maximo.getDer() != None:
+                    maximo = maximo.getDer()
+                nodo.setValor(maximo.getValor())
+                nodo.setIzq(self._suprimir(nodo.getIzq(), maximo.getValor()))
+        return nodo
+    
+    def hoja(self,valor:int):
+        return self._hoja(self.__raiz,valor)
+    def _hoja(self, nodo : Nodo,valor:int ):
+        es_hoja = None
+        if not nodo:
+            return es_hoja
+        elif valor < nodo.getValor():
+            es_hoja = self._hoja(nodo.getIzq(), valor)
+        elif valor > nodo.getValor():
+            es_hoja = self._hoja(nodo.getDer(),valor)
         else:
-            pass
-            
-
-    def raiz(self):
-        return self.__raiz
-    def hoja(self):
-        pass
-    def hijo(self):
-        pass
+            if self.grado(nodo) == 0:
+                es_hoja = True
+            return es_hoja
+        return es_hoja
+    def hijo(self, hijo : int, padre : int):
+        return self._hijo(self.__raiz,hijo,padre)
+    def _hijo(self, nodo, hijo : int, padre : int):
+        es_hijo = None
+        if not nodo:
+            return es_hijo
+        elif hijo < nodo.getValor():
+            self._hoja(nodo.getIzq(), valor)
+            if hijo == nodo.getIzq():
+                es_hijo = True
+        elif hijo > nodo.getValor():
+            self._hoja(nodo.getDer(),valor)
+            if hijo == nodo.getIzq():
+                es_hijo = True
+        else:
+            return True
+        return es_hijo
     def camino(self):
         pass
     def nivel(self):
@@ -109,7 +119,23 @@ class Arbol:
         pass
     def postOrden(self):
         pass
-
+    def raiz(self):
+        return self.__raiz
+"""La raíz de cada subárbol es un hijo o descendiente directo de r, y r es el padre o antecesor directo de
+cada raíz de los subárboles.
+ Camino de un nodo ni a otro nk: secuencia de nodos n1, n2, ...., nk , tal que ni es el padre de ni+1 para
+1<=i<k. En un árbol existe solamente un camino desde la raíz a cada nodo.
+ Si hay un camino entre los nodos n1 y n2, entonces n1 es antecesor de n2 y n2 es descendiente de n1.
+ Longitud de camino de un nodo ni a otro nk: Número de aristas que forman el camino, o número de
+nodos menos 1 que forman la secuencia. Existe un camino de longitud cero desde cada nodo a sí mismo.
+ Nivel de un nodo: si el nodo x está en el nivel i, entonces sus descendientes directos están en el nivel
+i+1. La raíz de un árbol, se define como localizada en el nivel 1.
+ Profundidad o Altura del árbol: máximo de los niveles de todos los nodos del árbol.
+ Grado de un nodo: Número de descendientes directos de un nodo.
+ Grado del árbol: Grado máximo en todos los nodos.
+ Nodo hoja: nodo de grado 0.
+ Nodo Interior: Nodo no hoja.
+ Árbol Ordenado: Árbol en el que las ramas de cada nodo están ordenadas"""
 arbol = Arbol()
 arbol.insertar(10)
 arbol.insertar(5)
@@ -117,9 +143,12 @@ arbol.insertar(15)
 arbol.insertar(2)
 arbol.insertar(7)
 arbol.insertar(17)
-
-print("Lista")
-arbol.inOrden()
-arbol.suprimir(15)
-print("Lista Luego de suprimir")
-arbol.inOrden()
+arbol.insertar(1)
+arbol.insertar(3)
+arbol.insertar(4)
+arbol.insertar(6)
+arbol.insertar(9)
+arbol.insertar(11)
+print("Arbol")
+visualizador(arbol.raiz())
+print(arbol.hijo(1,2))
