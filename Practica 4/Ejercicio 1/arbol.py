@@ -96,15 +96,15 @@ class Arbol:
         return self._hijo(self.__raiz,hijo,padre)
     def _hijo(self, nodo, hijo : int, padre : int):
         es_hijo = None
-        if not nodo:
+        if self.grado(nodo) == 0:
             return es_hijo
-        elif hijo < nodo.getValor():
-            self._hoja(nodo.getIzq(), valor)
-            if hijo == nodo.getIzq():
+        elif self.grado(nodo) == 1:
+            self._hoja(nodo.getIzq(), hijo)
+            if padre == nodo.getValor():
                 es_hijo = True
         elif hijo > nodo.getValor():
-            self._hoja(nodo.getDer(),valor)
-            if hijo == nodo.getIzq():
+            self._hoja(nodo.getDer(),hijo)
+            if padre == nodo.getValor():
                 es_hijo = True
         else:
             return True
