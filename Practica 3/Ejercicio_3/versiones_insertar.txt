@@ -1,0 +1,56 @@
+v 0.0.1 (error en los repetidos)
+def insertarPorContenido(self,elemento : str):
+        if not self.llena():
+            self.__arreglo[self.__disponible].setDato(elemento)
+            ultimo_insertado = self.__disponible
+            self.__disponible = self.__arreglo[self.__disponible].getSiguiente()
+            if self.longitud() > 1:
+                anterior = None
+                actual = self.__primero
+                indice = 0
+                while indice < self.__cant and self.__arreglo[actual].getDato() != None and elemento > self.__arreglo[actual].getDato():
+                    anterior = actual
+                    actual = self.__arreglo[actual].getSiguiente()
+                    indice +=1
+                # if elemento != self.__arreglo[actual].getDato():
+                #     self.__arreglo[actual].setSiguiente(self.__disponible)
+                #     self.__arreglo[ultimo_insertado].setSiguiente(actual)
+                #     self.__arreglo[anterior].setSiguiente(ultimo_insertado)
+                # else:
+                #     pass
+                print(f"El Anterior es {anterior}")
+                self.__arreglo[actual].setSiguiente(self.__disponible)
+                self.__arreglo[ultimo_insertado].setSiguiente(actual)
+                self.__arreglo[anterior].setSiguiente(ultimo_insertado)
+            self.__cant += 1
+        else:
+            print("la lista esta llena.")
+
+
+v 0.0.2 (falta contemplar cuando el primero es mayor al que entra)
+def insertarPorContenido(self,elemento : str):
+        if not self.llena():
+            ultimo_insertado = self.__disponible
+            self.__disponible = self.__arreglo[self.__disponible].getSiguiente()
+            if not self.vacia():
+                anterior = None
+                actual = self.__primero
+                while self.__arreglo[actual].getDato() != None and elemento >= self.__arreglo[actual].getDato():
+                    anterior = actual
+                    actual = self.__arreglo[actual].getSiguiente()
+                if anterior != None:
+                    if ultimo_insertado != actual:
+                        if self.__arreglo[actual].getSiguiente() == ultimo_insertado:
+                            self.__arreglo[actual].setSiguiente(self.__disponible)
+                        self.__arreglo[ultimo_insertado].setDato(elemento)
+                        self.__arreglo[ultimo_insertado].setSiguiente(actual)
+                        self.__arreglo[anterior].setSiguiente(ultimo_insertado)
+                    else:
+                        self.__arreglo[ultimo_insertado].setDato(elemento)
+                else:
+                    pass
+            else:
+                self.__arreglo[ultimo_insertado].setDato(elemento)
+            self.__cant += 1
+        else:
+            print("la lista esta llena.")

@@ -9,20 +9,15 @@ class ListaEncadenada:
         return self.__cant == 0
     def insertar(self,elem:int):
         nuevo = Nodo(elem)
-        if self.__cant:
-            anterior = None
-            actual = self.__cabeza
-            while actual != None and actual.getElem() < elem:
-                anterior = actual
-                actual = actual.getSig()
-            if anterior:
-                nuevo.setSig(anterior.getSig())
-                anterior.setSig(nuevo)
-            else:
-                nuevo.setSig(self.__cabeza)
-                self.__cabeza = nuevo
-        else:
+        if self.__cabeza is None or elem < self.__cabeza.getElem():
+            nuevo.setSig(self.__cabeza)
             self.__cabeza = nuevo
+        else:
+            anterior = self.__cabeza
+            while anterior.getSig() != None and elem > anterior.getSig().getElem():
+                anterior = anterior.getSig()
+            nuevo.setSig(anterior.getSig())
+            anterior.setSig(nuevo)
         self.__cant += 1
     def suprimir(self,posicion:int):
         if 0 <= posicion <= self.__cant:

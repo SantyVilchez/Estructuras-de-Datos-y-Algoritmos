@@ -167,11 +167,13 @@ class Arbol:
                     camino.append(1)
                     nodo_actual = nodo_actual.getDer()
         return camino
-
-
-
-
-
-
+    def cantidadNodos(self):
+        return self._cantidadNodos(self.__raiz,0)
+    def _cantidadNodos(self,nodo : Nodo,cant : int):
+        if nodo:
+            cant = self._cantidadNodos(nodo.getIzq(),cant)
+            cant +=1
+            cant = self._cantidadNodos(nodo.getDer(),cant)
+        return cant
 
 

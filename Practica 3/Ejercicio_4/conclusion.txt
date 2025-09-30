@@ -1,0 +1,18 @@
+def suma(lista_1 : ListaSecuencial, lista_2 : ListaSecuencial):
+    aux = np.zeros((lista_1.filas(),lista_1.columnas()),dtype = int)
+    for i in range(lista_1.filas()):
+        for j in range(lista_1.columnas()):
+            aux[i][j] = lista_1.elementos()[i][j] + lista_2.elementos()[i][j]
+    print(aux)
+
+
+
+def suma(A : lista,B : lista):
+    aux_1 = A.darCabeza()
+    aux_2 = B.darCabeza()
+    while aux_1 != None:
+        print(f"valor {aux_1.getValor()+aux_2.getValor()} en fila {aux_1.getFila()} columna {aux_1.getColumna()}")
+        aux_1 = aux_1.getSig()
+
+
+La complejidad de cada metodo de suma es distinta el orden de complejidad en la suma de listas encadenadas es O(n) y en listas encadenadas secuencial es O(n^2)
