@@ -19,10 +19,15 @@ class ArbolHuffman:
                         else:
                             self.__dic[c] = 1
     def estructurador(self):
+        lista = [1,2,3]
+        lista.pop()
+        print(lista)
         lista_nodos = [Nodo(int(f), v) for v, f in self.__dic.items()]
         lista_nodos.sort(key=lambda nodo: nodo.getFrecuencia())
-        while len(lista_nodos) != 1:
-            pass
+        # while len(lista_nodos) != 1:
+        #     nuevo_valor = lista_nodos[0].getValor()+lista_nodos[1].getValor()
+        #     nueva_frecuencia = lista_nodos[0].getFrecuencia() + lista_nodos[1].getFrecuencia()
+        #     nuevo_nodo = Nodo.
     def insertar(self, valor :int):
         if not self.__raiz:
             self.__raiz = Nodo(valor)
