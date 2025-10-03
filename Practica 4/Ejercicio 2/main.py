@@ -22,16 +22,45 @@ if __name__ == '__main__':
             except ValueError:
                 print("!!ERROR EL VALOR INSERTADO DEBE SER UN NUMERO!!")
         elif(opcion==2):
-            arbol.inOrden()
+            arbol.mostrar(arbol.raiz())
         elif(opcion==3):
-            pass
+            try:
+                valor = int(input("Ingrese el valor para ver su padre y hermano: "))   
+                padre,hermano=arbol.Padre_hermano(valor)
+                if padre != None:
+                    print(f"El padre es {padre}")
+                    print(f"El hermano es {hermano if hermano!= None else "No tiene"}")
+                else:
+                    print("El valor ingresado no se encuentra en el arbol")       
+            except ValueError:
+                print("!!ERROR EL VALOR INSERTADO DEBE SER UN NUMERO!!")
         elif(opcion==4):
             print(f"La cantidad de nodos del arbol es: {arbol.cantidadNodos()}")
         elif(opcion==5):
             print(f"La altura del arbol es: {arbol.altura()}")
         elif(opcion==6):
-            pass
+            try:
+                sucesor = int(input("Ingrese el valor para ver sus sucesores: "))   
+                arbol.sucesores(sucesor)    
+            except ValueError:
+                print("!!ERROR EL VALOR INSERTADO DEBE SER UN NUMERO!!")
         else:
             print("Opcion invalida")
         opcion=menu()
 
+
+"""
+1
+10
+1
+5
+1
+15
+1
+2
+1
+20
+1
+12
+
+"""

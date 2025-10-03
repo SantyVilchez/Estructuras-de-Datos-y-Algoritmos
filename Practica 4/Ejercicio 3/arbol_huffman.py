@@ -1,14 +1,34 @@
 from nodo_arbol import Nodo
-class Arbol:
+import csv
+class ArbolHuffman:
     __raiz : Nodo
+    __dic : dict
     def __init__(self):
         self.__raiz = None
+        self.__dic = {}
+        self.crear_dict()
+    def crear_dict(self):
+        with open('texto.csv', newline='', encoding='utf-8') as archivo:
+            filas = csv.reader(archivo)
+            for fila in filas:
+                for columna in fila:  
+                    for caracter in columna:
+                        c = caracter.lower()
+                        if c in self.__dic:
+                            self.__dic[c] += 1
+                        else:
+                            self.__dic[c] = 1
+    def estructurador(self):
+        lista_nodos = [Nodo(int(f), v) for v, f in self.__dic.items()]
+        lista_nodos.sort(key=lambda nodo: nodo.getFrecuencia())
+        while len(lista_nodos) != 1:
+            pass
     def insertar(self, valor :int):
         if not self.__raiz:
             self.__raiz = Nodo(valor)
         else:
             self._insertar(self.__raiz,valor)
-    
+
     def _insertar(self,nodo : Nodo,valor:int):
         if nodo.getValor() == valor:
             print("El valor ya existe")
@@ -31,21 +51,7 @@ class Arbol:
             self._inOrden(nodo.getIzq())
             print(nodo.getValor())#10/4/
             self._inOrden(nodo.getDer())
-    def mostrar(self,node, prefix="", is_tail=True, role="Raiz"):
-        if node is None:
-            return
-        connector = "└── " if is_tail else "├── "
-        is_leaf = (node.getIzq() is None and node.getDer() is None)
-        print(prefix + connector + f"{node.getValor()} ({role}{', Hoja' if is_leaf else ''})")
-        children = []
-        if node.getDer():
-            children.append(("Derecha", node.getDer()))
-        if node.getIzq():
-            children.append(("Izquierda", node.getIzq()))
-        new_prefix = prefix + ("    " if is_tail else "│   ")
-        for i, (child_role, child) in enumerate(children):
-            is_last = (i == len(children) - 1)
-            self.mostrar(child, new_prefix, is_last, child_role)
+
     def buscar(self,valor : int)->Nodo:
         return self._buscar(self.__raiz,valor)
 
@@ -181,33 +187,12 @@ class Arbol:
                     camino.append(1)
                     nodo_actual = nodo_actual.getDer()
         return camino
-    def cantidadNodos(self):
-        return self._cantidadNodos(self.__raiz,0)
-    def _cantidadNodos(self,nodo : Nodo,cant : int):
-        if nodo:
-            cant = self._cantidadNodos(nodo.getIzq(),cant)
-            cant +=1
-            cant = self._cantidadNodos(nodo.getDer(),cant)
-        return cant
-    def Padre_hermano(self,valo : int):
-        return self._Padre_hermano(valor,self.__raiz)
-    def _Padre_hermano(self,valor : int,nodo : Nodo):
-        if nodo == None:
-            hermano = None
-            padre = None
-        elif valor == nodo.getValor():
-            padre,hermano = True,True
-        elif valor < nodo.getValor():
-            padre,hermano = self._Padre_hermano(valor,nodo.getIzq())
-            if padre == True and hermano == True:
-                padre = nodo.getValor()
-                hermano = None if nodo.getDer() == None else nodo.getDer().getValor()
-        else:
-            padre,hermano = self._Padre_hermano(valor,nodo.getDer())
-            if padre == True and hermano == True:
-                padre = nodo.getValor()
-                hermano = None if nodo.getIzq() == None else nodo.getIzq().getValor()
-        return padre,hermano
-    def sucesores(self,valor : int):
-        inicio = self.buscar(valor)
-        self._PreOrden(inicio)
+
+
+
+Arbol = ArbolHuffman()
+
+Arbol.estructurador()
+
+
+
