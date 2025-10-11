@@ -3,7 +3,7 @@ def visualizador(node, prefix="", is_tail=True, role="Raiz"):
         return
     connector = "└── " if is_tail else "├── "
     is_leaf = (node.getIzq() is None and node.getDer() is None)
-    print(prefix + connector + f"{node.getValor()} ({role}{', Hoja' if is_leaf else ''})")
+    print(prefix + connector + f"{node.getValor()} {node.getBalance()} ({role}{', Hoja' if is_leaf else ''})")
     children = []
     if node.getDer():
         children.append(("Derecha", node.getDer()))
