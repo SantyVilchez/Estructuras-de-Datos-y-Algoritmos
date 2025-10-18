@@ -135,16 +135,16 @@ class Arbol:
     def _PreOrden(self,nodo:Nodo):
         if nodo:
             print(nodo.getValor())
-            self._inOrden(nodo.getIzq())
-            self._inOrden(nodo.getDer())
+            self._PreOrden(nodo.getIzq())
+            self._PreOrden(nodo.getDer())
  
     def PostOrden(self):
         self._PostOrden(self.__raiz)
 
     def _PostOrden(self,nodo:Nodo):
         if nodo:
-            self._inOrden(nodo.getIzq())
-            self._inOrden(nodo.getDer())
+            self._PostOrden(nodo.getIzq())
+            self._PostOrden(nodo.getDer())
             print(nodo.getValor())
     def raiz(self):
         return self.__raiz

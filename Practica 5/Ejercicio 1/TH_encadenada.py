@@ -1,41 +1,25 @@
 import numpy as np
-from codigos_extra import obtener_primo,ListaEnlazada
+from codigos_extra import obtener_primo,ListaSecuencial
+#Aclaraciones: Mi lista secuencial esta inserta por contenido ( ordenada ) para usar busqueda binaria y ademas no admite valores repetidos todo esto dentro de la misma lista
 class TablaHash:
     __tamaño : int
     __tabla : np.array
-    def __init__(self,tamaño : int):
-        #El tamaño del arreglo debe ser la cantidad de valor necesario a guardar (m) dividido en 0.7 y dicho numero debe ser primo
-        #aqui lo que hago es obtener el entero del tamaño dividido en 0.7 luego redondearlo ya que necesito un numero entero y finalmente
-        #envio el valor resultante a la funcion obtener primo que devuelve el valor que envie si es primo o el primo siguiente
-        #asi finalmente el tamaño de la tabla es un primo que cumple con las condiciones necesarias
-        self.__tamaño = obtener_primo(round(tamaño/0.7))
-        #en este ejercicio decidi que era bastante comodo hacer un arreglo numpy de listas enlazadas 
-        self.__tabla = np.array([ListaEnlazada() for _ in range(self.__tamaño)], dtype=ListaEnlazada)
-
-    def hash(self,palabra : str):
-        #este metodo sirve para trasnformar cadenas en indices
-        indice = 0
-        base = 31
-        for letra in palabra:
-            indice = (indice * base + ord(letra)) % self.__tamaño
-        return indice
-    
-    def insertar(self, valor : str):
-        #directamente insertamos valor en el indice las colisiones el manejo de colisiones es automatico practicamente jaja
-        indice = self.hash(valor)
-        self.__tabla[indice].insertar(valor) #los repetidos directamente los maneja el insertar de lista enlazada
-
-    def buscar(self,valor : str):
-        indice = self.hash(valor)
-        aux = self.__tabla[indice].obtener_cabeza() #obtenemos la cabeza de la lista enlazada en dicha posicion
-        encontrado = False
-        while aux != None and aux.getElem() != valor: #buscamos entre el valor y las colisiones si es que hubo
-            aux = aux.getSig()
-        if aux != None:
-            encontrado = True 
+    def __init__(self,tamaño_tabla : int, tamaño_bucket : int):
+        self.__tamaño = obtener_primo(round(tamaño_tabla/tamaño_bucket))
+        self.__tabla = np.array([ListaSecuencial(tamaño_bucket) for _ in range(self.__tamaño)], dtype=ListaSecuencial)
+    def hashing(self, valor:int):
+        #Metodo de transformacion hay varios, este especificamente solo funciona para enteros
+        return valor % self.__tamaño
+    def insertar(self, valor:int):
+        indice = self.hashing(valor)
+        #Pregunto si el bucket esta lleno 
+        if self.__tabla[indice].llena() != True: #si no esta lleno lo inserto en el area primaria 
+            self.__tabla[indice].insertarPorContenido(valor)
+    def busqueda(self, valor : int):
+        indice = self.hashing(valor)
+        encontrado = None
+        #aqui llamamos a busqueda binaria que retorna true si lo encontrot o None si no lo encontro
+        if self.__tabla[indice].busquedaBinaria(valor) != None: #si no lo encuentra en el bucket entonces lo busca en el overflow
+            encontrado = True
         return encontrado
-    def mostrar(self): #no es un metodo de la funcion misma pero ta buena pal debug
-        for i in range(self.__tamaño):
-            print(f"[{i}] {self.__tabla[i]}")
-
 

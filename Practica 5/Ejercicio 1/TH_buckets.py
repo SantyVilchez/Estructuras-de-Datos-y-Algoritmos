@@ -1,31 +1,60 @@
 import numpy as np
-from codigos_extra import obtener_primo,ListaSecuencial
+from codigos_extra import obtener_primo
 #Aclaraciones: Mi lista secuencial esta inserta por contenido ( ordenada ) para usar busqueda binaria y ademas no admite valores repetidos todo esto dentro de la misma lista
 class TablaHash:
-    __tamaño : int
+    __tamaño_tabla : int
+    __tamaño_buckets : int
     __tabla : np.array
-    __overflow : ListaSecuencial
-    def __init__(self,tamaño_tabla : int, tamaño_bucket : int):
-        self.__tamaño = obtener_primo(round(tamaño_tabla/0.7))
-        self.__tabla = self.__tabla = np.array([ListaSecuencial(tamaño_bucket) for _ in range(self.__tamaño)], dtype=ListaSecuencial)
-        self.__overflow = ListaSecuencial(round(self.__tamaño * 0.3))
+    def __init__(self,tamaño_tabla : int, tamaño_buckets : int):
+        self.__tamaño_tabla = obtener_primo(round(tamaño_tabla/tamaño_buckets))
+        self.__tamaño_buckets = tamaño_buckets
+        self.__tabla = np.zeros( (round(self.__tamaño_tabla * 1.2) , self.__tamaño_buckets) , dtype=int)
+        self.__tabla_contadora = np.zeros(self.__tamaño_tabla,dtype=int)
     def hashing(self, valor:int):
         #Metodo de transformacion hay varios, este especificamente solo funciona para enteros
-        return valor % self.__tamaño
+        return valor % self.__tamaño_tabla
     def insertar(self, valor:int):
         indice = self.hashing(valor)
-        #Pregunto si el bucket esta lleno 
-        if self.__tabla[indice].llena() != True: #si no esta lleno lo inserto en el area primaria 
-            self.__tabla[indice].insertarPorContenido(valor)
-        else: # si el bucket estaba lleno se va al area overflow
-            self.__overflow.insertarPorContenido(valor)
-    def busqueda(self, valor : int):
+        indice_bucket = self.__tabla_contadora[indice]
+        if indice_bucket < self.__tamaño_buckets:
+            self.__tabla[indice][indice_bucket] = valor
+            self.__tabla_contadora[indice] += 1
+        else:
+            indice_overflow = self.__tamaño_tabla 
+            indice_bucket = 0
+            while indice_overflow < len(self.__tabla) and self.__tabla[indice_overflow][indice_bucket] != 0:
+                indice_bucket+=1
+                if indice_bucket < self.__tamaño_buckets:
+                    indice_overflow += 1
+                    indice_bucket = 0
+            if indice < len(self.__tabla):
+                self.__tabla[indice_overflow][indice_bucket] = valor
+    def buscar(self,valor : int):
         indice = self.hashing(valor)
-        encontrado = None
-        #aqui llamamos a busqueda binaria que retorna true si lo encontrot o None si no lo encontro
-        if self.__tabla[indice].busquedaBinaria(valor) != None: #si no lo encuentra en el bucket entonces lo busca en el overflow
-            encontrado = True
-        elif self.__overflow.busquedaBinaria(valor) != None: # si no lo encuentra en el overflow no esta
-            encontrado = True
-        return encontrado
-
+        indice_buckets = 0
+        buscado = 0
+        while indice_buckets < self.__tamaño_buckets and self.__tabla[indice][indice_buckets] != valor:
+            indice_buckets += 1
+        if indice_buckets < self.__tamaño_buckets:
+            buscado = self.__tabla[indice][indice_buckets]
+        elif self.__tabla_contadora[indice] != indice_buckets:
+            indice_overflow = self.__tamaño_tabla 
+            indice_buckets = 0
+            while indice_overflow < len(self.__tabla) and self.__tabla[indice_overflow][indice_buckets] != valor:
+                indice_buckets+=1
+                if indice_buckets < self.__tamaño_buckets:
+                    indice_overflow += 1
+                    indice_buckets = 0
+            if indice < len(self.__tabla):
+               buscado = self.__tabla[indice][indice_buckets]
+        return buscado
+    def mostrar(self):
+        print(self.__tabla)
+        print(self.__tabla_contadora)
+if __name__=="__main__":
+    tabla = TablaHash(10,2)
+    tabla.insertar(44526532)
+    tabla.insertar(46726832)
+    tabla.insertar(20533432)
+    tabla.mostrar()
+    print(tabla.buscar(46726832))
