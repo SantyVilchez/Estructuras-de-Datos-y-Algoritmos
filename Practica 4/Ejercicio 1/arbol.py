@@ -64,9 +64,9 @@ class Arbol:
             nodo.setDer(self._suprimir(nodo.getDer(),valor))
         else :
             if self.grado(nodo) == 0:
-                return None
+                nodo =  None
             if self.grado(nodo) == 1:
-                return nodo.getDer() if nodo.getDer() else nodo.getIzq()
+                nodo =  nodo.getDer() if nodo.getDer() else nodo.getIzq()
             if self.grado(nodo) == 2:
                 maximo = nodo.getIzq()
                 while maximo.getDer() != None:
