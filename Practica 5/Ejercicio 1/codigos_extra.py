@@ -39,7 +39,7 @@ class ListaEnlazada:
         actual = self.__cabeza
         elementos = []
         while actual:
-            elementos.append(actual.getElem())
+            elementos.append(str(actual.getElem()))
             actual = actual.getSig()
         return " -> ".join(elementos)
     def insertar(self, valor: str) -> None:
@@ -58,54 +58,55 @@ class ListaEnlazada:
                 repetido = True
             if not repetido:
                 actual.setSig(nuevo)
-
     def obtener_cabeza(self):
         return self.__cabeza if self.__cabeza else None
 
   
 # codigo de lista secuencial ordenada por contenido para la estructura de buckets
-class ListaSecuencial:
-    __cant : int
-    __maximo : int
-    __arrego : np.ndarray
-    def __init__(self,maximo : int):
-        self.__maximo = maximo
-        self.__cant = 0
-        self.__arreglo = np.zeros(maximo,dtype=int)
-    def vacia(self):
-        return self.__cant == 0
-    def llena(self):
-        return self.__cant == self.__maximo
-    def insertarPorContenido(self,elemento : int):
-        if not self.llena():
-            repetido = False
-            if not self.vacia():
+# class ListaSecuencial:
+#     __cant : int
+#     __maximo : int
+#     __arrego : np.ndarray
+#     def __init__(self,maximo : int):
+#         self.__maximo = maximo
+#         self.__cant = 0
+#         self.__arreglo = np.zeros(maximo,dtype=int)
+#     def vacia(self):
+#         return self.__cant == 0
+#     def llena(self):
+#         return self.__cant == self.__maximo
+#     def insertarPorContenido(self,elemento : int):
+#         if not self.llena():
+#             repetido = False
+#             if not self.vacia():
                 
-                indice = 0
-                while self.__arreglo[indice]!= 0 and self.__arreglo[indice] != elemento and self.__arreglo[indice] < elemento:
-                    indice += 1
-                if self.__arreglo[indice] != elemento:
-                    for x in range(self.__cant,indice,-1):
-                        self.__arreglo[x] = self.__arreglo[x-1]
-                    self.__arreglo[indice]= elemento
-                else:
-                    repetido =True
-            else:
-                self.__arreglo[0] = elemento   
-            if repetido == False:
-                self.__cant += 1
-        else:
-            print(f"La lista esta llena el elemento {elemento} no pudo ser insertado")
-    def busquedaBinaria(self,valor : int):
-        izquierda = 0
-        derecha = self.__cant - 1
-        while izquierda <= derecha:
-            medio = (izquierda + derecha)//2
-            valor_medio = self.__arreglo[medio]
-            if valor_medio == valor:
-                return True
-            elif valor < valor_medio:
-                derecha = medio - 1
-            else:
-                izquierda = medio + 1
-        return None
+#                 indice = 0
+#                 while self.__arreglo[indice]!= 0 and self.__arreglo[indice] != elemento and self.__arreglo[indice] < elemento:
+#                     indice += 1
+#                 if self.__arreglo[indice] != elemento:
+#                     for x in range(self.__cant,indice,-1):
+#                         self.__arreglo[x] = self.__arreglo[x-1]
+#                     self.__arreglo[indice]= elemento
+#                 else:
+#                     repetido =True
+#             else:
+#                 self.__arreglo[0] = elemento   
+#             if repetido == False:
+#                 self.__cant += 1
+#         else:
+#             print(f"La lista esta llena el elemento {elemento} no pudo ser insertado")
+#     def busquedaBinaria(self,valor : int):
+#         izquierda = 0
+#         derecha = self.__cant - 1
+#         while izquierda <= derecha:
+#             medio = (izquierda + derecha)//2
+#             valor_medio = self.__arreglo[medio]
+#             if valor_medio == valor:
+#                 return True
+#             elif valor < valor_medio:
+#                 derecha = medio - 1
+#             else:
+#                 izquierda = medio + 1
+#         return None
+
+
