@@ -35,13 +35,18 @@ class Grafo:
             if self.__matriz[idx][j] == 1:
                 grado += 1
         return grado
-    #VA CASI 100%
+    
+    #VA CASI 100% (Aqui habia un error ya solucionado, lo comentado es lo que estaba anterioremente mal)
     def esFuente(self, vertice: str) :
-        return self.gradoEntrada(vertice) == 0
-    #VA CASI 100%
-    def esSumidero(self, vertice: str) :
-        return self.gradoSalida(vertice) == 0
+        return self.gradoEntrada(vertice) == 0 and self.gradoSalida(vertice) > 0
+        #antes estaba solo 
+        #return self.gradoEntrada(vertice) == 0 pero esta mal pq para que un vertice sea fuente debe recibir 0 aristas pero enviar por lo menos 1 arista
 
+    #VA CASI 100% (Aqui habia un error ya solucionado, lo comentado es lo que estaba anterioremente mal)
+    def esSumidero(self, vertice: str) :
+        return self.gradoSalida(vertice) == 0 and self.gradoEntrada(vertice) > 0
+        #antes estaba solo 
+        #return self.gradoSalida(vertice) == 0 pero esta mal pq para que un vertice sea sumidero debe enviar 0 aristas pero recibir por lo menos 1 arista
     def mostrar(self):
         print(self.__matriz)
     #PUEDE IR AL PARCIAL
