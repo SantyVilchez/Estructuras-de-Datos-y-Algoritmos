@@ -5,7 +5,8 @@ class TablaHash:
     __tamaño_buckets : int
     __matriz : np.array
     __lista_contadores: int
-    def __init__(self,cantidad_claves : int, tamaño_buckets : int):
+    #como el tamaño de los buckets no me lo especifican me lo saco de los huevos
+    def __init__(self,cantidad_claves= 800, tamaño_buckets = 4 ):
         self.__tamaño_area_primaria = primo(cantidad_claves / tamaño_buckets)
         self.__tamaño_buckets = tamaño_buckets
         self.__matriz = np.zeros((self.__tamaño_tabla * 1.2, self.__tamaño_buckets),dtype = int)

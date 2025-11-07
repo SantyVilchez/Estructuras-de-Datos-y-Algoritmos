@@ -6,7 +6,7 @@ class TablaHash:
     __tabla : np.array
     def __init__(self,claves_a_almacenar : int):
         self.__tamaño = obtener_primo(round(claves_a_almacenar/0.7))
-        self.__tabla = np.full(self.__tamaño,None,dtype = object)
+        self.__tabla = np.zeros(self.__tamaño,dtype = object)
     
  
 #Ejemplo si un parcial que dice que debes almacenar 1000 claves en una tabla de direccionamiento abierto :
